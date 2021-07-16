@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="./css/index.css">
+</head>
+
+<body>
+    <div class="container">
+        <h4>Portal saldo bip</h4>
+        <div class="row">
+            <div class="input-field col s5 offset-s4">
+                <input placeholder="00000000" id="txtNtarjeta" type="text" class="validate">
+                <label for="txtNtarjeta">Numero de tarjeta</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12 centrar">
+                <a class="waves-effect waves-light btn-large" onclick="saldoBip()">Consultar tu saldo</a>
+            </div>
+        </div>
+        <div class="row">
+            <table class="striped">
+                <tr>
+                    <td>Numero de tarjeta</td>
+                    <td id="tdNtarjeta"></td>
+                </tr>
+                <tr>
+                    <td>Estado</td>
+                    <td id="tdStatus"></td>
+                </tr>
+                <tr>
+                    <td>Saldo</td>
+                    <td id="tdBalance"></td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+    <script src="./js/saldo.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</body>
+
+</html>
