@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="./css/app.css">
+</head>
+
+<body>
+    <div class="container">
+        <h4>Consulta Buses</h4>
+        <div class="row">
+            <div class="input-field col s6">
+                <input id="txtCodParadero" type="text" class="validate">
+                <label for="txtCodParadero">Codigo paradero</label>
+            </div>
+            <div class=" col s6">
+                <a class="waves-effect waves-light btn-large" onclick="consultaBus()">Consultar</a>
+            </div>
+        </div>
+        <div class="row">
+            <table id="tbBuses"> 
+
+            </table>
+
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="./js/app.js"></script>
+</body>
+
+</html>
