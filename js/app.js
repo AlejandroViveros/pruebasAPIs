@@ -33,8 +33,8 @@ function consultaBus() {
             bus.buses.forEach(bus2 => {
                 contenidos = contenidos + ` <tr>
                 <td>` + bus.id + `</td>
-                <td>` + bus2.meters_distance + `</td>
-                <td>` + bus2.min_arrival_time + `</td>
+                <td>` + bus2.meters_distance + ` (metros)</td>
+                <td>` + bus2.min_arrival_time + ` (minutos)</td>
                 <td>` + bus2.id + `</td>
                 </tr>`;
             });
