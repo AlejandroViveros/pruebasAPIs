@@ -66,9 +66,26 @@ function consultaSismos() {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.open("GET", url, false);
     xmlHttp.send(null);
-    console.log(xmlHttp.responseText);
     var resultado = JSON.parse(xmlHttp.responseText);
-    console.log("url", url);
-    // document.getElementById("txtFecha").value = document.getElementById("txtFecha").value.replaceAll("/","");
+    console.log(resultado);
+    var cero = 0;
+    var contenidos = `<tr>
+    <td>Fecha</td>
+    <td>Lugar</td>
+    <td>Magnitud</td>
+    </tr> `;
+    resultado.forEach(temblor => {
+        console.log(temblor);
+        cero = cero+1;
+        console.log("cero", cero);
+    contenidos = contenidos+  `<tr>
+    <td>  ` + temblor.fechaLocal + `</td>
+    <td>  ` + temblor.geoReferencia + `</td>
+    <td>  ` + temblor.magnitudes[0].magnitud + `</td>
+    </tr>`
+    
+        
+    });
+    document.getElementById("tbSismo").innerHTML = contenidos;
     
 }
