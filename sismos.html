@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sismos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="./css/app.css">
+</head>
+
+<body>
+    <nav>
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo">Logo</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="#">Sismos</a></li>
+                <li><a href="consultaSaldo.html">Consulta saldo</a></li>
+                <li><a href="consultaBus.html">Consulta bus</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <h4>Sismos</h4>
+        <div class="row">
+            <div class="col s12">
+                <input type="text" class="datepicker" id="txtFecha">
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12 centrar">
+                <a class="waves-effect waves-light btn-large" onclick="consultaSismos()">Consultar</a>
+            </div>
+        </div>
+
+
+    </div>
+
+<script src="./js/app.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</body>
+
+</html>

@@ -1,3 +1,10 @@
+document.addEventListener('DOMContentLoaded', function () {
+    var elems = document.querySelectorAll('.datepicker');
+    M.Datepicker.init(elems, {
+        format: "yyyy/mm/dd"
+    });
+});
+
 function saldoBip() {
     var url = "https://api.xor.cl/red/balance/" + document.getElementById("txtNtarjeta").value;
     console.log(url);
@@ -38,7 +45,7 @@ function consultaBus() {
                 <td>` + bus2.id + `</td>
                 </tr>`;
             });
-        }else {
+        } else {
             contenidos = contenidos + `<tr>
             <td>` + bus.id + `</td>
             <td colspan="3" class="centrarTexto">` + bus.status_description + `</td>
@@ -47,5 +54,20 @@ function consultaBus() {
         }
     });
     document.getElementById("tbBuses").innerHTML = contenidos;
+
+}
+
+function consultaSismos() {
+    var url = "https://api.xor.cl/sismo/";
+    if (document.getElementById("txtFecha").value.length > 0) {
+        url = url + "?fecha=" + document.getElementById("txtFecha").value
+    }
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", url, false);
+    xmlHttp.send(null);
+    console.log(xmlHttp.responseText);
+    var resultado = JSON.parse(xmlHttp.responseText);
+    console.log("url", url);
+    // document.getElementById("txtFecha").value = document.getElementById("txtFecha").value.replaceAll("/","");
 
 }
