@@ -60,7 +60,8 @@ function consultaBus() {
 function consultaSismos() {
     var url = "https://api.xor.cl/sismo/";
     if (document.getElementById("txtFecha").value.length > 0) {
-        url = url + "?fecha=" + document.getElementById("txtFecha").value
+        var fecha = document.getElementById("txtFecha").value.replaceAll("/","");
+        url = url + "?fecha=" + fecha
     }
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.open("GET", url, false);
@@ -69,5 +70,5 @@ function consultaSismos() {
     var resultado = JSON.parse(xmlHttp.responseText);
     console.log("url", url);
     // document.getElementById("txtFecha").value = document.getElementById("txtFecha").value.replaceAll("/","");
-
+    
 }
