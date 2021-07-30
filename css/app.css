@@ -32,3 +32,10 @@ body {
 .centrarTexto{
     text-align: center;
 }
+
+#imagenPerrito {
+    min-width: 500px;
+    min-height: 500px;
+    background-repeat: no-repeat;
+    background-size: cover;
+}

@@ -89,3 +89,15 @@ function consultaSismos() {
     document.getElementById("tbSismo").innerHTML = contenidos;
     
 }
+
+function  randomPerritos () {
+    var url = "https://dog.ceo/api/breeds/image/random";
+     var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", url, false);
+    xmlHttp.send(null);
+    var resultado = JSON.parse(xmlHttp.responseText);
+    console.log(resultado.message);
+    var imagen = document.getElementById("imagenPerrito");
+    imagen.style.backgroundImage = "url("+ resultado.message +")";
+    
+}
