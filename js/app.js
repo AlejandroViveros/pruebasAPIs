@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', function () {
     M.Datepicker.init(elems, {
         format: "yyyy/mm/dd"
     });
+
+    cargarRegiones();
 });
 
 function saldoBip() {
@@ -60,7 +62,7 @@ function consultaBus() {
 function consultaSismos() {
     var url = "https://api.xor.cl/sismo/";
     if (document.getElementById("txtFecha").value.length > 0) {
-        var fecha = document.getElementById("txtFecha").value.replaceAll("/","");
+        var fecha = document.getElementById("txtFecha").value.replaceAll("/", "");
         url = url + "?fecha=" + fecha
     }
     var xmlHttp = new XMLHttpRequest();
@@ -76,28 +78,63 @@ function consultaSismos() {
     </tr> `;
     resultado.forEach(temblor => {
         console.log(temblor);
-        cero = cero+1;
+        cero = cero + 1;
         console.log("cero", cero);
-    contenidos = contenidos+  `<tr>
+        contenidos = contenidos + `<tr>
     <td>  ` + temblor.fechaLocal + `</td>
     <td>  ` + temblor.geoReferencia + `</td>
     <td>  ` + temblor.magnitudes[0].magnitud + `</td>
     </tr>`
-    
-        
+
+
     });
     document.getElementById("tbSismo").innerHTML = contenidos;
-    
+
 }
 
-function  randomPerritos () {
+function randomPerritos() {
     var url = "https://dog.ceo/api/breeds/image/random";
-     var xmlHttp = new XMLHttpRequest();
+    var xmlHttp = new XMLHttpRequest();
     xmlHttp.open("GET", url, false);
     xmlHttp.send(null);
     var resultado = JSON.parse(xmlHttp.responseText);
     console.log(resultado.message);
     var imagen = document.getElementById("imagenPerrito");
-    imagen.style.backgroundImage = "url("+ resultado.message +")";
-    
+    imagen.style.backgroundImage = "url(" + resultado.message + ")";
+
+}
+
+function cargarRegiones() {
+    var url = "https://apis.digital.gob.cl/dpa/regiones";
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", url, false);
+    xmlHttp.send(null);
+    var resultado = JSON.parse(xmlHttp.responseText);
+    console.log(resultado);
+    var contenidos = ` <option value="0">Escoja region</option> `
+    resultado.forEach(region => {
+        contenidos = contenidos + `<option value="` + region.codigo + `">` + region.nombre + `</option>`;
+    });
+    document.getElementById("selRegion").innerHTML = contenidos;
+    var elems = document.getElementById("selRegion");
+    var instances = M.FormSelect.init(elems, {});
+
+}
+
+function cargarComunas() {
+    var url = "https://apis.digital.gob.cl/dpa/regiones/" + document.getElementById("selRegion").value + "/comunas"
+    console.log(url);
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", url, false);
+    xmlHttp.send(null);
+    var resultado = JSON.parse(xmlHttp.responseText);
+    console.log(resultado);
+    var contenidos = `<option value="0">Escoja comuna</option> `
+    resultado.forEach(comuna => {
+        contenidos = contenidos + `<option value="` + comuna.codigo + `">` + comuna.nombre + `</option>`;
+    });
+    document.getElementById("selComuna").innerHTML = contenidos;
+    var elems = document.getElementById("selComuna");
+    var instances = M.FormSelect.init(elems, {});
+
 }
