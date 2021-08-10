@@ -7,24 +7,39 @@ document.addEventListener('DOMContentLoaded', function () {
     cargarRegiones();
 });
 
+function consultaAPI() {
+    return new Promise((resolve, reject) => {
+        try {
+            var url = "https://api.xor.cl/red/balance/" + document.getElementById("txtNtarjeta").value;
+            console.log(url);
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open("GET", url, false);
+            xmlHttp.send(null);
+            console.log(xmlHttp.responseText);
+            var resultado = JSON.parse(xmlHttp.responseText);
+            var respuesta = {
+                id: resultado.id,
+                status: resultado.status_description,
+                balance: resultado.balance
+            }
+            resolve(respuesta);
+        } catch (error) {
+            
+            reject("Pagina en mantencion");
+        }
+    })
+}
+
 function saldoBip() {
-    try {
-        var url = "https://api.xor.cl/red/balance/" + document.getElementById("txtNtarjeta").value;
-        console.log(url);
-        var xmlHttp = new XMLHttpRequest();
-        xmlHttp.open("GET", url, false);
-        xmlHttp.send(null);
-        console.log(xmlHttp.responseText);
-        var resultado = JSON.parse(xmlHttp.responseText);
-        document.getElementById("tdNtarjeta").innerHTML = resultado.id
-        document.getElementById("tdStatus").innerHTML = resultado.status_description
-        document.getElementById("tdBalance").innerHTML = "$" + resultado.balance
+    consultaAPI().then((response) => {
+        document.getElementById("tdNtarjeta").innerHTML = response.id
+        document.getElementById("tdStatus").innerHTML = response.status
+        document.getElementById("tdBalance").innerHTML = "$" + response.balance
 
-    } catch (error) {
-        document.getElementById("txtError").innerHTML = "Pagina en mantención"
-
-    }
-
+    }).catch((error) => {
+        document.getElementById("txtError").innerHTML = error;
+        
+    })
 }
 
 function consultaBus() {
