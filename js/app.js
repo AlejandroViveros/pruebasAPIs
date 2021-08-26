@@ -24,7 +24,7 @@ function consultaAPI() {
             }
             resolve(respuesta);
         } catch (error) {
-            
+
             reject("Pagina en mantencion");
         }
     })
@@ -38,7 +38,7 @@ function saldoBip() {
 
     }).catch((error) => {
         document.getElementById("txtError").innerHTML = error;
-        
+
     })
 }
 
@@ -183,5 +183,39 @@ function cargarComunas() {
         document.getElementById("txtError").innerHTML = "Pagina en mantención"
     }
 
+
+}
+
+function devolverPromesa2(parametroQ) {
+    return new Promise((resolve, reject) => {
+
+        const q = parametroQ;
+        const key = "wXg9n3iin4XXjIJGwayJ5UG0PKLAeSaz";
+        const url = `https://api.giphy.com/v1/gifs/search?api_key=${key}&q=${encodeURI(q)}&limit=5`
+        const xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("GET", url, false);
+        xmlHttp.send(null);
+        let resultado = JSON.parse(xmlHttp.responseText);
+        resolve(resultado);
+    })
+}
+devolverPromesa2();
+
+function buscarGif() {
+    const q = document.getElementById("txtBuscarGif").value;
+    devolverPromesa2(q).then((res) => {
+        console.log(`resultado ${res}`);
+        let contenidos = "";
+        res.data.forEach(gif => {
+            console.log(gif.images.downsized_medium.url);
+            contenidos +=`<div class = "card">
+            <div class = "card-image">
+                <img src= ${gif.images.downsized_medium.url} alt = {title}></img> 
+                <div class = "card-title">${gif.title} </div>
+            </div>
+        </div>`;
+        });
+        document.getElementById("gifs").innerHTML = contenidos;
+    })
 
 }
