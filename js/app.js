@@ -12,10 +12,10 @@ function consultaAPI() {
         try {
             var url = "https://api.xor.cl/red/balance/" + document.getElementById("txtNtarjeta").value;
             console.log(url);
-            devolverLlamadoApi(url).then((res)=>{
+            devolverLlamadoApi(url).then((res) => {
 
-            }).catch((error)=>{
-                
+            }).catch((error) => {
+                alertaError();
             })
             var respuesta = {
                 id: resultado.id,
@@ -37,7 +37,7 @@ function saldoBip() {
         document.getElementById("tdBalance").innerHTML = "$" + response.balance
 
     }).catch((error) => {
-        document.getElementById("txtError").innerHTML = error;
+        alertaError();
 
     })
 }
@@ -46,10 +46,10 @@ function consultaBus() {
     try {
         var url = "https://api.xor.cl/red/bus-stop/" + document.getElementById("txtCodParadero").value
         console.log(url);
-        devolverLlamadoApi(url).then((res)=>{
+        devolverLlamadoApi(url).then((res) => {
 
-        }).catch((error)=>{
-            
+        }).catch((error) => {
+            alertaError();
         })
         var contenidos = ` <tr>
                         <td>Micro</td>
@@ -80,7 +80,7 @@ function consultaBus() {
         document.getElementById("tbBuses").innerHTML = contenidos;
 
     } catch (error) {
-        document.getElementById("txtError").innerHTML = "Pagina en mantención"
+        alertaError();
 
     }
 
@@ -93,10 +93,10 @@ function consultaSismos() {
             var fecha = document.getElementById("txtFecha").value.replaceAll("/", "");
             url = url + "?fecha=" + fecha
         }
-        devolverLlamadoApi(url).then((res)=>{
+        devolverLlamadoApi(url).then((res) => {
 
-        }).catch((error)=>{
-            
+        }).catch((error) => {
+            alertaError();
         })
         var cero = 0;
         var contenidos = `<tr>
@@ -119,7 +119,7 @@ function consultaSismos() {
         document.getElementById("tbSismo").innerHTML = contenidos;
 
     } catch (error) {
-        document.getElementById("txtError").innerHTML = "Pagina en mantención"
+        alertaError();
     }
 
 
@@ -127,16 +127,16 @@ function consultaSismos() {
 
 function randomPerritos() {
     try {
-        var url = "https://dog.ceo/api/breeds/image/random";
-        devolverLlamadoApi(url).then((res)=>{
-
-        }).catch((error)=>{
-            
+        const url = "https://dog.ceo/api/breeds/image/random";
+        devolverLlamadoApi(url).then((res) => {
+            const imagen = document.getElementById("imagenPerrito");
+            imagen.style.backgroundImage = "url(" + res.message + ")";
+        }).catch((error) => {
+            alertaError();
         })
-        var imagen = document.getElementById("imagenPerrito");
-        imagen.style.backgroundImage = "url(" + resultado.message + ")";
+
     } catch (error) {
-        document.getElementById("txtError").innerHTML = "Pagina en mantención"
+        dalertaError();
     }
 
 
@@ -144,21 +144,21 @@ function randomPerritos() {
 
 function cargarRegiones() {
     try {
-        var url = "https://apis.digital.gob.cl/dpa/regiones";
-        devolverLlamadoApi(url).then((res)=>{
-
-        }).catch((error)=>{
-            
+        const url = "https://apis.digital.gob.cl/dpa/regiones";
+        devolverLlamadoApi(url).then((res) => {
+            let contenidos = ` <option value="0">Escoja region</option> `
+            res.forEach(region => {
+                contenidos = contenidos + `<option value="` + region.codigo + `">` + region.nombre + `</option>`;
+            });
+            document.getElementById("selRegion").innerHTML = contenidos;
+            const elems = document.getElementById("selRegion");
+            M.FormSelect.init(elems, {});
+        }).catch((error) => {
+            alertaError();
         })
-        var contenidos = ` <option value="0">Escoja region</option> `
-        resultado.forEach(region => {
-            contenidos = contenidos + `<option value="` + region.codigo + `">` + region.nombre + `</option>`;
-        });
-        document.getElementById("selRegion").innerHTML = contenidos;
-        var elems = document.getElementById("selRegion");
-        var instances = M.FormSelect.init(elems, {});
+
     } catch (error) {
-        document.getElementById("txtError").innerHTML = "Pagina en mantención"
+        alertaError();
     }
 
 
@@ -166,62 +166,51 @@ function cargarRegiones() {
 
 function cargarComunas() {
     try {
-        var url = "https://apis.digital.gob.cl/dpa/regiones/" + document.getElementById("selRegion").value + "/comunas"
+        const url = "https://apis.digital.gob.cl/dpa/regiones/" + document.getElementById("selRegion").value + "/comunas"
         console.log(url);
         devolverLlamadoApi(url).then((res) => {
-
+            let contenidos = `<option value="0">Escoja comuna</option> `
+            res.forEach(comuna => {
+                contenidos = contenidos + `<option value="` + comuna.codigo + `">` + comuna.nombre + `</option>`;
+            });
+            document.getElementById("selComuna").innerHTML = contenidos;
+            const elems = document.getElementById("selComuna");
+            M.FormSelect.init(elems, {});
         }).catch((error) => {
-
+            alertaError();
         })
-        var contenidos = `<option value="0">Escoja comuna</option> `
-        resultado.forEach(comuna => {
-            contenidos = contenidos + `<option value="` + comuna.codigo + `">` + comuna.nombre + `</option>`;
-        });
-        document.getElementById("selComuna").innerHTML = contenidos;
-        var elems = document.getElementById("selComuna");
-        var instances = M.FormSelect.init(elems, {});
+
     } catch (error) {
-        document.getElementById("txtError").innerHTML = "Pagina en mantención"
+        alertaError();
     }
 
 
 }
 
-function devolverPromesa2(parametroQ) {
-    return new Promise((resolve, reject) => {
+function buscarGif() {
 
-        const q = parametroQ;
+        const q = document.getElementById("txtBuscarGif").value;
         const key = "wXg9n3iin4XXjIJGwayJ5UG0PKLAeSaz";
         const url = `https://api.giphy.com/v1/gifs/search?api_key=${key}&q=${encodeURI(q)}&limit=5`
         devolverLlamadoApi(url).then((res) => {
-
+            console.log(`resultado ${res}`);
+            let contenidos = "";
+            res.data.forEach(gif => {
+                console.log(gif.images.downsized_medium.url);
+                contenidos += `<div class = "card">
+                <div class = "card-image">
+                    <img src= ${gif.images.downsized_medium.url} alt = {title}></img> 
+                    <div class = "card-title">${gif.title} </div>
+                </div>
+            </div>`;
+            });
+            document.getElementById("gifs").innerHTML = contenidos;
         }).catch((error) => {
+            alertaError();
 
         })
-        resolve(resultado);
-    })
+        
 }
-devolverPromesa2();
-
-function buscarGif() {
-    const q = document.getElementById("txtBuscarGif").value;
-    devolverPromesa2(q).then((res) => {
-        console.log(`resultado ${res}`);
-        let contenidos = "";
-        res.data.forEach(gif => {
-            console.log(gif.images.downsized_medium.url);
-            contenidos += `<div class = "card">
-            <div class = "card-image">
-                <img src= ${gif.images.downsized_medium.url} alt = {title}></img> 
-                <div class = "card-title">${gif.title} </div>
-            </div>
-        </div>`;
-        });
-        document.getElementById("gifs").innerHTML = contenidos;
-    })
-
-}
-
 function devolverLlamadoApi(url) {
     return new Promise((resolve, reject) => {
         try {
@@ -239,4 +228,12 @@ function devolverLlamadoApi(url) {
     })
 
 
+}
+
+function alertaError() {
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        
+      })
 }
