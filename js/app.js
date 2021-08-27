@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
         format: "yyyy/mm/dd"
     });
 
-    cargarRegiones();
+    // cargarRegiones();
 });
 
 function consultaAPI() {
@@ -12,11 +12,11 @@ function consultaAPI() {
         try {
             var url = "https://api.xor.cl/red/balance/" + document.getElementById("txtNtarjeta").value;
             console.log(url);
-            var xmlHttp = new XMLHttpRequest();
-            xmlHttp.open("GET", url, false);
-            xmlHttp.send(null);
-            console.log(xmlHttp.responseText);
-            var resultado = JSON.parse(xmlHttp.responseText);
+            devolverLlamadoApi(url).then((res)=>{
+
+            }).catch((error)=>{
+                
+            })
             var respuesta = {
                 id: resultado.id,
                 status: resultado.status_description,
@@ -46,10 +46,11 @@ function consultaBus() {
     try {
         var url = "https://api.xor.cl/red/bus-stop/" + document.getElementById("txtCodParadero").value
         console.log(url);
-        var xmlHttp = new XMLHttpRequest();
-        xmlHttp.open("GET", url, false);
-        xmlHttp.send(null);
-        var resultado = JSON.parse(xmlHttp.responseText);
+        devolverLlamadoApi(url).then((res)=>{
+
+        }).catch((error)=>{
+            
+        })
         var contenidos = ` <tr>
                         <td>Micro</td>
                         <td>Distancia</td>
@@ -92,11 +93,11 @@ function consultaSismos() {
             var fecha = document.getElementById("txtFecha").value.replaceAll("/", "");
             url = url + "?fecha=" + fecha
         }
-        var xmlHttp = new XMLHttpRequest();
-        xmlHttp.open("GET", url, false);
-        xmlHttp.send(null);
-        var resultado = JSON.parse(xmlHttp.responseText);
-        console.log(resultado);
+        devolverLlamadoApi(url).then((res)=>{
+
+        }).catch((error)=>{
+            
+        })
         var cero = 0;
         var contenidos = `<tr>
     <td>Fecha</td>
@@ -127,11 +128,11 @@ function consultaSismos() {
 function randomPerritos() {
     try {
         var url = "https://dog.ceo/api/breeds/image/random";
-        var xmlHttp = new XMLHttpRequest();
-        xmlHttp.open("GET", url, false);
-        xmlHttp.send(null);
-        var resultado = JSON.parse(xmlHttp.responseText);
-        console.log(resultado.message);
+        devolverLlamadoApi(url).then((res)=>{
+
+        }).catch((error)=>{
+            
+        })
         var imagen = document.getElementById("imagenPerrito");
         imagen.style.backgroundImage = "url(" + resultado.message + ")";
     } catch (error) {
@@ -144,11 +145,11 @@ function randomPerritos() {
 function cargarRegiones() {
     try {
         var url = "https://apis.digital.gob.cl/dpa/regiones";
-        var xmlHttp = new XMLHttpRequest();
-        xmlHttp.open("GET", url, false);
-        xmlHttp.send(null);
-        var resultado = JSON.parse(xmlHttp.responseText);
-        console.log(resultado);
+        devolverLlamadoApi(url).then((res)=>{
+
+        }).catch((error)=>{
+            
+        })
         var contenidos = ` <option value="0">Escoja region</option> `
         resultado.forEach(region => {
             contenidos = contenidos + `<option value="` + region.codigo + `">` + region.nombre + `</option>`;
@@ -167,11 +168,11 @@ function cargarComunas() {
     try {
         var url = "https://apis.digital.gob.cl/dpa/regiones/" + document.getElementById("selRegion").value + "/comunas"
         console.log(url);
-        var xmlHttp = new XMLHttpRequest();
-        xmlHttp.open("GET", url, false);
-        xmlHttp.send(null);
-        var resultado = JSON.parse(xmlHttp.responseText);
-        console.log(resultado);
+        devolverLlamadoApi(url).then((res) => {
+
+        }).catch((error) => {
+
+        })
         var contenidos = `<option value="0">Escoja comuna</option> `
         resultado.forEach(comuna => {
             contenidos = contenidos + `<option value="` + comuna.codigo + `">` + comuna.nombre + `</option>`;
@@ -192,10 +193,11 @@ function devolverPromesa2(parametroQ) {
         const q = parametroQ;
         const key = "wXg9n3iin4XXjIJGwayJ5UG0PKLAeSaz";
         const url = `https://api.giphy.com/v1/gifs/search?api_key=${key}&q=${encodeURI(q)}&limit=5`
-        const xmlHttp = new XMLHttpRequest();
-        xmlHttp.open("GET", url, false);
-        xmlHttp.send(null);
-        let resultado = JSON.parse(xmlHttp.responseText);
+        devolverLlamadoApi(url).then((res) => {
+
+        }).catch((error) => {
+
+        })
         resolve(resultado);
     })
 }
@@ -208,7 +210,7 @@ function buscarGif() {
         let contenidos = "";
         res.data.forEach(gif => {
             console.log(gif.images.downsized_medium.url);
-            contenidos +=`<div class = "card">
+            contenidos += `<div class = "card">
             <div class = "card-image">
                 <img src= ${gif.images.downsized_medium.url} alt = {title}></img> 
                 <div class = "card-title">${gif.title} </div>
@@ -217,5 +219,24 @@ function buscarGif() {
         });
         document.getElementById("gifs").innerHTML = contenidos;
     })
+
+}
+
+function devolverLlamadoApi(url) {
+    return new Promise((resolve, reject) => {
+        try {
+            const xmlHttp = new XMLHttpRequest();
+            xmlHttp.open("GET", url, false);
+            xmlHttp.send(null);
+            let resultado = JSON.parse(xmlHttp.responseText);
+            resolve(resultado);
+
+        } catch (error) {
+            reject("Error, no se pudieron obtener los datos")
+        }
+
+
+    })
+
 
 }
